@@ -1,0 +1,22 @@
+{
+    "name": "ilya/brick",
+    "description": "Brick helps you test your API by producing invalid method calls",
+    "require-dev": {
+        "phpspec/phpspec": "~2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ilya S",
+            "email": "public.ilya.s@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "2.4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Brick\\": "src/Brick/"
+        }
+    }
+}
