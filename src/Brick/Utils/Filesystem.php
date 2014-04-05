@@ -10,6 +10,8 @@ class Filesystem {
      */
     public function read($file)
     {
+        if ( ! is_readable($file)) return null;
+
         return file_get_contents($file);
     }
 

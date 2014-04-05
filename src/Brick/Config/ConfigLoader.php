@@ -14,12 +14,12 @@ class ConfigLoader {
     /**
      * The constructor
      *
-     * @param  Brick\Utils\Filesystem $file
+     * @param  Brick\Utils\Filesystem|null $file
      * @return void
      */
-    public function __construct(File $file)
+    public function __construct(File $file = null)
     {
-        $this->file = $file;
+        $this->file = $file ?: new File;
     }
 
     /**

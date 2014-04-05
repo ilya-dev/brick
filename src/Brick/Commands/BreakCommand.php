@@ -5,6 +5,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Brick\Brick, Brick\Config\ConfigLoader;
+
 class BreakCommand extends Command {
 
     /**
@@ -32,7 +34,14 @@ class BreakCommand extends Command {
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Hello, world!');
+        $config = (new ConfigLoader)->load();
+
+        $report = function($message) use($output)
+        {
+            $output->writeln($message);
+        };
+
+        (new Brick)->run($input->getArgument('class'), $config, $report);
     }
 
 }
