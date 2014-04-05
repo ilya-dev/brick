@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+define('BRICK_ROOT_DIR', __DIR__);
+
+define('BRICK_VERSION', '0.1.0');
+
+require __DIR__.'/vendor/autoload.php';
+
+$brick = new Symfony\Component\Console\Application('Brick', BRICK_VERSION); 
+
+$brick->add(new Brick\Commands\BreakCommand);
+
+exit($brick->run());

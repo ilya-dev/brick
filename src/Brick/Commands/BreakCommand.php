@@ -16,7 +16,7 @@ class BreakCommand extends Command {
     {
         $this->setName('break');
 
-        $this->setDescription('Attempt to break the given class');
+        $this->setDescription('Attempts to break the given class');
 
         $this->setDefinition([
             new InputArgument('class', InputArgument::REQUIRED, 'Full class name'),
