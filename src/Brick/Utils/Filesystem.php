@@ -3,7 +3,7 @@
 class Filesystem {
 
     /**
-     * Read a given file
+     * Read a file
      *
      * @param  string $file
      * @return mixed
@@ -14,7 +14,7 @@ class Filesystem {
     }
 
     /**
-     * Require a given .php file
+     * Require a .php file
      *
      * @param  string $file
      * @return mixed
@@ -22,6 +22,18 @@ class Filesystem {
     public function requireFile($file)
     {
         return require $file;
+    }
+
+    /**
+     * Append to a file
+     *
+     * @param  string  $file
+     * @param  mixed   $content
+     * @return integer
+     */
+    public function append($file, $content)
+    {
+        return file_put_contents($file, $content, FILE_APPEND);
     }
 
 }
