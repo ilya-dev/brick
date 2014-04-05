@@ -3,8 +3,47 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "aa6ba06c0e6ffdc3875506b6032d8f95",
+    "hash": "22d69543f4e80b2341d8fd386c562f5d",
     "packages": [
+        {
+            "name": "ilya/creator",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ilya-dev/creator.git",
+                "reference": "2ab4590cb08a4437f01dd3106e070bb874e9f8ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ilya-dev/creator/zipball/2ab4590cb08a4437f01dd3106e070bb874e9f8ef",
+                "reference": "2ab4590cb08a4437f01dd3106e070bb874e9f8ef",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpspec/phpspec": "2.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Creator\\": "src/Creator/"
+                },
+                "classmap": [
+                    "testing/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ilya S",
+                    "email": "public.ilya.s@gmail.com"
+                }
+            ],
+            "description": "An example of automatic dependency resolution in PHP",
+            "time": "2014-04-03 13:24:51"
+        },
         {
             "name": "symfony/console",
             "version": "v2.4.2",
