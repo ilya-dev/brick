@@ -66,6 +66,33 @@ final class Brick {
             if (is_null($decision)) continue;
 
             $this->report("<info>#{$iteration}:</info> $decision");
+
+            // print the result
+            // if it failed with an exception, stop execution and tell
+            // what actually happened
+            // don't forget about logging!
+        }
+    }
+
+    /**
+     * Invoke a method with given set of arguments
+     *
+     * @param  mixed        $instance
+     * @param  Brick\Action $action
+     * @return mixed
+     */
+    protected function takeAction($instance, Action $action)
+    {
+        try
+        {
+            $callable = [$instance, $action->getMethod()];
+
+            return \call_user_func_array($callable, $action->getArguments());
+        }
+
+        catch(\Exception $exception)
+        {
+            Exceptions::add($exception);
         }
     }
 
