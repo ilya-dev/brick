@@ -59,7 +59,10 @@ final class Brick {
         $strategy = Creator::create($this->config['strategy']);
         $logger   = Creator::create($this->config['logger']);
 
-
+        foreach (range(1, $this->config['attempts']) as $iteration)
+        {
+            // here we do something....
+        }
     }
 
     /**

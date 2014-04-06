@@ -57,5 +57,41 @@ class Action {
         return $this->arguments;
     }
 
+    /**
+     * PHP magic method
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $arguments = \implode(", ", $this->transformArguments());
+
+        return "\$instance->{$this->method}({$arguments})";
+    }
+
+    /**
+     * Represent each argument as a string
+     *
+     * @return array
+     */
+    protected function transformArguments()
+    {
+        $arguments = [];
+
+        foreach ($this->arguments as $argument)
+        {
+            if (is_object($argument))
+            {
+                $arguments[] = '\\'.get_class($argument);
+            }
+            else
+            {
+                $arguments[] = \var_export($argument, true);
+            }
+        }
+
+        return $arguments;
+    }
+
 }
 
