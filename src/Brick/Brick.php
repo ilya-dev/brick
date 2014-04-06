@@ -35,9 +35,59 @@ final class Brick {
     {
         $this->config = $config;
         $this->report = $report;
-        $this->class  = $class;
+
+        // so you can write My/Class instead of "My\Class"
+        $this->class  = str_replace('/', '\\', $class);
 
         $this->writeHead();
+
+        $this->registerHandlers();
+
+        $this->doRun();
+
+        $this->finish();
+    }
+
+    /**
+     * Actually run Brick
+     *
+     * @return void
+     */
+    protected function doRun()
+    {
+        $instance = Creator::create($this->class);
+        $strategy = Creator::create($this->config['strategy']);
+        $logger   = Creator::create($this->config['logger']);
+
+
+    }
+
+    /**
+     * Register custom exception and error handlers
+     *
+     * @return void
+     */
+    protected function registerHandlers()
+    {
+        \set_error_handler(function($severity, $message)
+        {
+            throw new \RuntimeException($message, $severity);
+        });
+
+        \set_exception_handler(function(\Exception $exception)
+        {
+            Exceptions::add($exception);
+        });
+    }
+
+    /**
+     * Finish execution
+     *
+     * @return void
+     */
+    protected function finish()
+    {
+        $this->report("<info>Done</info>");
     }
 
     /**
