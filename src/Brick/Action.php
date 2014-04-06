@@ -82,7 +82,7 @@ class Action {
         {
             if (is_object($argument))
             {
-                $arguments[] = '\\'.get_class($argument);
+                $arguments[] = 'new \\'.get_class($argument);
             }
             else
             {

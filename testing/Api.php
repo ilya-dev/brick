@@ -12,5 +12,16 @@ class Api {
         return \strlen($thing) & 1;
     }
 
+    public function makeWorldBetter(CrazyInterface $bar)
+    {
+        return $bar->wow();
+    }
+
+}
+
+interface CrazyInterface {
+
+    public function bar($such = null, $rly = 42);
+
 }
 

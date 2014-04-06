@@ -9,7 +9,47 @@ class Random {
      */
     public static function arguments(\ReflectionMethod $method)
     {
-        // TODO
+        $arguments = [];
+
+        foreach ($method->getParameters() as $argument)
+        {
+            if ( ! \is_null($class = $argument->getClass()))
+            {
+                $arguments[] = static::resolveClass($class);
+            }
+            else
+            {
+                $arguments[] = static::value();
+            }
+        }
+
+        return $arguments;
+    }
+
+    /**
+     * Create an instance of existing class or build an implementation
+     *
+     * @return mixed
+     */
+    protected static function resolveClass(\ReflectionClass $class)
+    {
+        $name = $class->getName();
+
+        if (\class_exists($name, true) && ! $class->isAbstract())
+        {
+            return Creator::create($name);
+        }
+
+        if ($class->isInterface())
+        {
+            $implementation = Implementation::forInterface($name);
+        }
+        else
+        {
+            $implementation = Implementation::forAbstract($name);
+        }
+
+        return new $implementation;
     }
 
     /**
@@ -72,7 +112,12 @@ class Random {
 
         foreach (\range(1, \rand(1, 10)) as $index)
         {
-            $values[] = static::value();
+            if (\is_object($value = static::value()) or \is_array($value))
+            {
+                continue;
+            }
+
+            $values[] = $value;
         }
 
         return $values;
