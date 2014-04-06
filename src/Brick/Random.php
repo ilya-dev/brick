@@ -3,6 +3,16 @@
 class Random {
 
     /**
+     * Call a method with random arguments
+     *
+     * @return array
+     */
+    public static function arguments(\ReflectionMethod $method)
+    {
+        // TODO
+    }
+
+    /**
      * Get random value
      *
      * @return mixed

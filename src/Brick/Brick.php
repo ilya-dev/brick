@@ -61,7 +61,11 @@ final class Brick {
 
         foreach (range(1, $this->config['attempts']) as $iteration)
         {
-            // here we do something....
+            $decision = $strategy->decide($instance);
+
+            if (is_null($decision)) continue;
+
+            $this->report("<info>#{$iteration}:</info> $decision");
         }
     }
 
