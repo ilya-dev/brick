@@ -57,15 +57,12 @@ final class Brick {
     {
         $instance = Creator::create($this->class);
         $strategy = Creator::create($this->config['strategy']);
-        $logger   = Creator::create($this->config['logger']);
 
         foreach (range(1, $this->config['attempts']) as $iteration)
         {
             $decision = $strategy->decide($instance);
 
             if (is_null($decision)) continue;
-
-            $logger->log($decision);
 
             $this->report("<info>#{$iteration}:</info> $decision");
 
@@ -149,13 +146,11 @@ final class Brick {
 
         $strategy = "<comment>{$this->config['strategy']}</comment>";
         $attempts = "<comment>{$this->config['attempts']}</comment>";
-        $logger   = "<comment>{$this->config['logger']}</comment>";
 
         $this->report(
             "<info>Running {$strategy} strategy {$attempts} times</info>"
         );
 
-        $this->report("<info>Logging using {$logger} logger</info>");
         $this->report(\str_repeat('-', 40));
     }
 
