@@ -65,12 +65,26 @@ final class Brick {
 
             if (is_null($decision)) continue;
 
+            $logger->log($decision);
+
             $this->report("<info>#{$iteration}:</info> $decision");
 
-            // print the result
-            // if it failed with an exception, stop execution and tell
-            // what actually happened
-            // don't forget about logging!
+            Exceptions::remember();
+
+            $outcome = $this->takeAction($instance, $decision);
+
+            if (Exceptions::wereAdded())
+            {
+                $this->report("<error>It looks like your code's just got broken!</error>");
+
+                return;
+            }
+            else
+            {
+                $outcome = Exporter::export($outcome);
+
+                $this->report("<comment># => {$outcome}</comment>");
+            }
         }
     }
 
@@ -116,6 +130,7 @@ final class Brick {
      */
     protected function finish()
     {
+        $this->report(\str_repeat('-', 40));
         $this->report("<info>Done</info>");
     }
 
@@ -139,6 +154,7 @@ final class Brick {
         );
 
         $this->report("<info>Logging using {$logger} logger</info>");
+        $this->report(\str_repeat('-', 40));
     }
 
     /**

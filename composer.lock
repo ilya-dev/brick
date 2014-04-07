@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "9164cb9d41575085bed608e5aa6f09ab",
+    "hash": "fce62771555e418ef443eb792ab74128",
     "packages": [
         {
             "name": "ilya/creator",
@@ -46,23 +46,20 @@
         },
         {
             "name": "ilya/eve",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ilya-dev/eve.git",
-                "reference": "efba595a522a663feb867bf30a4fab2064c68d16"
+                "reference": "f481906b60eb8975d3a0bac0a5e0c1ea883f4887"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ilya-dev/eve/zipball/efba595a522a663feb867bf30a4fab2064c68d16",
-                "reference": "efba595a522a663feb867bf30a4fab2064c68d16",
+                "url": "https://api.github.com/repos/ilya-dev/eve/zipball/f481906b60eb8975d3a0bac0a5e0c1ea883f4887",
+                "reference": "f481906b60eb8975d3a0bac0a5e0c1ea883f4887",
                 "shasum": ""
             },
             "require": {
                 "nikic/php-parser": "0.9.*"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "2.0.*@dev"
             },
             "type": "library",
             "autoload": {
@@ -81,7 +78,7 @@
                 }
             ],
             "description": "Doing crazy things with Reflection API and nikic/php-parser",
-            "time": "2014-04-06 08:57:35"
+            "time": "2014-04-06 09:16:19"
         },
         {
             "name": "nikic/php-parser",

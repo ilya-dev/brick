@@ -2,9 +2,13 @@
 
 class Api {
 
-    public function isApi()
+    public function getData()
     {
-        return true;
+        return [
+            'status'  => true,
+
+            'version' => 2.29
+        ];
     }
 
     public function doSomething($thing)
@@ -17,11 +21,18 @@ class Api {
         return $bar->wow();
     }
 
+    public function makeCoffee()
+    {
+        return new \stdClass;
+    }
+
 }
 
 interface CrazyInterface {
 
     public function bar($such = null, $rly = 42);
+
+    public function wow();
 
 }
 

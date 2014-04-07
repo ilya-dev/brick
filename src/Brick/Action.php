@@ -86,7 +86,7 @@ class Action {
             }
             else
             {
-                $arguments[] = \var_export($argument, true);
+                $arguments[] = Exporter::export($argument);
             }
         }
 
