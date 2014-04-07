@@ -12,7 +12,7 @@ final class Brick {
     /**
      * Bridge to Symfony's OutputInterface implementation
      *
-     * @var Closure
+     * @var \Closure
      */
     protected $report;
 
@@ -26,9 +26,9 @@ final class Brick {
     /**
      * Run Brick
      *
-     * @param  string  $class
-     * @param  array   $config
-     * @param  Closure $report
+     * @param  string   $class
+     * @param  array    $config
+     * @param  \Closure $report
      * @return void
      */
     public function run($class, array $config, \Closure $report)
@@ -77,8 +77,8 @@ final class Brick {
     /**
      * Invoke a method with given set of arguments
      *
-     * @param  mixed        $instance
-     * @param  Brick\Action $action
+     * @param  mixed         $instance
+     * @param  \Brick\Action $action
      * @return mixed
      */
     protected function takeAction($instance, Action $action)
@@ -106,11 +106,6 @@ final class Brick {
         \set_error_handler(function($severity, $message)
         {
             throw new \RuntimeException($message, $severity);
-        });
-
-        \set_exception_handler(function(\Exception $exception)
-        {
-            Exceptions::add($exception);
         });
     }
 

@@ -10,6 +10,33 @@ class Exceptions {
     protected static $exceptions = [];
 
     /**
+     * Last remembered state
+     *
+     * @var integer
+     */
+    protected static $remembered = 0;
+
+    /**
+     * "Remember" current state
+     *
+     * @return void
+     */
+    public static function remember()
+    {
+        static::$remembered = \count(static::$exceptions);
+    }
+
+    /**
+     * Whether the current state has changed since the last time it was "remembered"
+     *
+     * @return boolean
+     */
+    public static function wereAdded()
+    {
+        return \count(static::$exceptions) !== static::$remembered;
+    }
+
+    /**
      * Add an exception
      *
      * @param  Exception $exception
