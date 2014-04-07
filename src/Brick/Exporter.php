@@ -10,19 +10,42 @@ class Exporter {
      */
     public static function export($thing)
     {
-        if (is_object($thing)) return "instance of ".\get_class($thing);
-
-        $thing = \var_export($thing, true);
-
-        // TODO: make it prettier
-        if (\strpos($thing, 'array (') !== false)
+        if (\is_object($thing))
         {
-            // array () => []
-            $thing = \str_replace('array (', '[', $thing);
-            $thing = \substr($thing, 0, \strlen($thing) - 1).']';
+            return static::exportObject($thing);
         }
 
-        return $thing;
+        if (\is_array($thing))
+        {
+            return static::exportArray($thing);
+        }
+
+        return \var_export($thing, true);
+    }
+
+    /**
+     * Export an object
+     *
+     * @param  mixed  $object
+     * @return string
+     */
+    protected static function exportObject($object)
+    {
+        return 'instance of '.\get_class($object);
+    }
+
+    /**
+     * Export an array
+     *
+     * @param  array  $array
+     * @return string
+     */
+    protected static function exportArray(array $array)
+    {
+        $string = \str_replace('array (', '[', \var_export($array, true));
+        $string = \substr($string, 0, \strlen($string) - 1).']';
+
+        return $string;
     }
 
 }
