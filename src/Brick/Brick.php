@@ -24,6 +24,24 @@ class Brick {
     protected $class;
 
     /**
+     * Exceptions instance
+     *
+     * @var \Brick\Exceptions
+     */
+    protected $exceptions;
+
+    /**
+     * The constructor
+     *
+     * @param  \Brick\Exceptions $exceptions
+     * @return void
+     */
+    public function __construct(Exceptions $exceptions)
+    {
+        $this->exceptions = $exceptions;
+    }
+
+    /**
      * Run Brick
      *
      * @param  string   $class
@@ -77,11 +95,11 @@ class Brick {
 
             $this->reportAction($action, $index);
 
-            Exceptions::remember();
+            $this->exceptions->remember();
 
             $result = $this->takeAction($instance, $action);
 
-            if (Exceptions::wereAdded())
+            if ($this->exceptions->wereAdded())
             {
                 return $this->reportBroken();
             }
@@ -126,7 +144,7 @@ class Brick {
     {
         $this->report("<error>It looks like your code's just got broken!</error>");
 
-        $this->report("<error>".Exceptions::getLastMessage()."</error>");
+        $this->report("<error>".$this->exceptions->getLastMessage()."</error>");
     }
 
     /**
@@ -147,7 +165,7 @@ class Brick {
 
         catch(\Exception $exception)
         {
-            Exceptions::add($exception);
+            $this->exceptions->add($exception);
         }
     }
 
