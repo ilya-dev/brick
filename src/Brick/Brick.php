@@ -77,6 +77,8 @@ final class Brick {
             {
                 $this->report("<error>It looks like your code's just got broken!</error>");
 
+                $this->report("<error>".Exceptions::getLastMessage()."</error>");
+
                 return;
             }
             else

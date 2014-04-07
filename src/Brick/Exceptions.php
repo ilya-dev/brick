@@ -17,6 +17,20 @@ class Exceptions {
     protected static $remembered = 0;
 
     /**
+     * Get a message string from the latest caught exception
+     *
+     * @return string
+     */
+    public static function getLastMessage()
+    {
+        $exception = \end(static::$exceptions);
+
+        \reset(static::$exceptions);
+
+        return $exception->getMessage();
+    }
+
+    /**
      * "Remember" current state
      *
      * @return void
