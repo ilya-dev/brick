@@ -33,12 +33,12 @@ class Brick {
     /**
      * The constructor
      *
-     * @param  \Brick\Exceptions $exceptions
+     * @param  \Brick\Exceptions|null $exceptions
      * @return void
      */
-    public function __construct(Exceptions $exceptions)
+    public function __construct(Exceptions $exceptions = null)
     {
-        $this->exceptions = $exceptions;
+        $this->exceptions = $exceptions ?: new Exceptions;
     }
 
     /**
