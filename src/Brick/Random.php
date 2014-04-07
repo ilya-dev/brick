@@ -60,53 +60,92 @@ class Random {
     public static function value()
     {
         $methods = [
-            '_integer' , '_float'  , '_boolean',
-            '_array'   , '_null'   , '_closure',
-            '_object'  , '_string' ,
+            'integer' , 'float'  , 'boolean',
+            'array'   , 'null'   , 'closure',
+            'object'  , 'string' ,
         ];
 
-        $method = $methods[\array_rand($methods)];
+        $method = 'get'.\ucfirst($methods[\array_rand($methods)]);
 
         return \call_user_func([__CLASS__, $method]);
     }
 
-    public static function _null()
+    /**
+     * Get null
+     *
+     * @return null
+     */
+    public static function getNull()
     {
         return null;
     }
 
-    public static function _closure()
+    /**
+     * Get an empty closure
+     *
+     * @return \Closure
+     */
+    public static function getClosure()
     {
         return function() {};
     }
 
-    public static function _boolean()
+    /**
+     * Get a random boolean
+     *
+     * @return boolean
+     */
+    public static function getBoolean()
     {
         return (boolean)(\rand() & 1);
     }
 
-    public static function _integer()
+    /**
+     * Get a random integer
+     *
+     * @return integer
+     */
+    public static function getInteger()
     {
         return \rand();
     }
 
-    public static function _object()
+    /**
+     * Get a new instance of stdClass
+     *
+     * @return \stdClass
+     */
+    public static function getObject()
     {
-        // rewriting is in order
         return new \stdClass;
     }
 
-    public static function _float()
+    /**
+     * Get a random float
+     *
+     * @return float
+     */
+    public static function getFloat()
     {
         return \floatval(\rand().'.'.\rand());
     }
 
-    public static function _string()
+    /**
+     * Get a random string
+     *
+     * @return string
+     */
+    public static function getString()
     {
-        return \uniqid("", true);
+        return \uniqid('', true);
     }
 
-    public static function _array()
+    /**
+     * Get a random array
+     *
+     * @return array
+     */
+    public static function getArray()
     {
         $values = [];
 
