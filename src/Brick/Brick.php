@@ -1,6 +1,6 @@
 <?php namespace Brick;
 
-final class Brick {
+class Brick {
 
     /**
      * Brick configuration
@@ -37,15 +37,22 @@ final class Brick {
         $this->report = $report;
 
         // so you can write My/Class instead of "My\Class"
-        $this->class  = str_replace('/', '\\', $class);
-
-        $this->writeHead();
+        $this->setClass($class);
 
         $this->registerHandlers();
-
+        $this->start();
         $this->doRun();
+    }
 
-        $this->finish();
+    /**
+     * Set the class name
+     *
+     * @param  string $class
+     * @return void
+     */
+    protected function setClass($class)
+    {
+        $this->class = str_replace('/', '\\', $class);
     }
 
     /**
@@ -57,34 +64,69 @@ final class Brick {
     {
         $instance = Creator::create($this->class);
         $strategy = Creator::create($this->config['strategy']);
+        $indexes  = \range(1, $this->config['attempts']);
 
-        foreach (range(1, $this->config['attempts']) as $iteration)
+        foreach ($indexes as $index)
         {
-            $decision = $strategy->decide($instance);
+            $action = $strategy->decide($instance);
 
-            if (is_null($decision)) continue;
+            if (is_null($action))
+            {
+                continue;
+            }
 
-            $this->report("<info>#{$iteration}:</info> $decision");
+            $this->reportAction($action, $index);
 
             Exceptions::remember();
 
-            $outcome = $this->takeAction($instance, $decision);
+            $result = $this->takeAction($instance, $action);
 
             if (Exceptions::wereAdded())
             {
-                $this->report("<error>It looks like your code's just got broken!</error>");
-
-                $this->report("<error>".Exceptions::getLastMessage()."</error>");
-
-                return;
+                return $this->reportBroken();
             }
             else
             {
-                $outcome = Exporter::export($outcome);
-
-                $this->report("<comment># => {$outcome}</comment>");
+                $this->reportResult($result);
             }
         }
+    }
+
+    /**
+     * Report an action
+     *
+     * @param  \Brick\Action  $action
+     * @param  integer        $index
+     * @return void
+     */
+    protected function reportAction(Action $action, $index)
+    {
+        $this->report("<info>#{$index}:</info> $action");
+    }
+
+    /**
+     * Report a result
+     *
+     * @param  mixed $result
+     * @return void
+     */
+    protected function reportResult($result)
+    {
+        $result = Exporter::export($result);
+
+        $this->report("<comment># => {$result}</comment>");
+    }
+
+    /**
+     * Report broken code
+     *
+     * @return void
+     */
+    protected function reportBroken()
+    {
+        $this->report("<error>It looks like your code's just got broken!</error>");
+
+        $this->report("<error>".Exceptions::getLastMessage()."</error>");
     }
 
     /**
@@ -123,34 +165,18 @@ final class Brick {
     }
 
     /**
-     * Finish execution
-     *
-     * @return void
-     */
-    protected function finish()
-    {
-        $this->report(\str_repeat('-', 40));
-        $this->report("<info>Done</info>");
-    }
-
-    /**
      * Write header information
      *
      * @return void
      */
-    protected function writeHead()
+    protected function start()
     {
-        $this->report(
-            "<info>Attempting to break <comment>{$this->class}</comment> class</info>"
-        );
+        $class = $this->class;
 
-        $strategy = "<comment>{$this->config['strategy']}</comment>";
-        $attempts = "<comment>{$this->config['attempts']}</comment>";
+        list($strategy, $attempts) = [$this->config['strategy'], $this->config['attempts']];
 
-        $this->report(
-            "<info>Running {$strategy} strategy {$attempts} times</info>"
-        );
-
+        $this->report("<info>Attempting to break <comment>{$class}</comment> class</info>");
+        $this->report("<info>Running <comment>{$strategy}</comment> strategy <comment>{$attempts}</comment> times</info>");
         $this->report(\str_repeat('-', 40));
     }
 
