@@ -21,7 +21,7 @@ class DefaultStrategy extends Strategy {
     {
         $strategies = ['ask', 'say'];
 
-        return $strategies[array_rand($strategies)];
+        return $strategies[\array_rand($strategies)];
     }
 
 }

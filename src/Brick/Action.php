@@ -3,13 +3,6 @@
 class Action {
 
     /**
-     * Action's unique indentificator
-     *
-     * @var string
-     */
-    protected $uid;
-
-    /**
      * Method called
      *
      * @var string
@@ -32,7 +25,6 @@ class Action {
      */
     public function __construct($method, array $arguments)
     {
-        $this->uid       = \spl_object_hash($this);
         $this->method    = $method;
         $this->arguments = $arguments;
     }
@@ -86,7 +78,7 @@ class Action {
             }
             else
             {
-                $arguments[] = \var_export($argument, true);
+                $arguments[] = Exporter::export($argument);
             }
         }
 

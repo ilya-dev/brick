@@ -7,7 +7,48 @@ class Exceptions {
      *
      * @var array
      */
-    protected static $exceptions = [];
+    protected $exceptions = [];
+
+    /**
+     * Last remembered state
+     *
+     * @var integer
+     */
+    protected $remembered = 0;
+
+    /**
+     * Get a message string from the latest caught exception
+     *
+     * @return string
+     */
+    public function getLastMessage()
+    {
+        $exception = \end($this->exceptions);
+
+        \reset($this->exceptions);
+
+        return $exception->getMessage();
+    }
+
+    /**
+     * "Remember" current state
+     *
+     * @return void
+     */
+    public function remember()
+    {
+        $this->remembered = \count($this->exceptions);
+    }
+
+    /**
+     * Whether the current state has changed since the last time it was "remembered"
+     *
+     * @return boolean
+     */
+    public function wereAdded()
+    {
+        return \count($this->exceptions) !== $this->remembered;
+    }
 
     /**
      * Add an exception
@@ -15,29 +56,9 @@ class Exceptions {
      * @param  Exception $exception
      * @return void
      */
-    public static function add(\Exception $exception)
+    public function add(\Exception $exception)
     {
-        static::$exceptions[] = $exception;
-    }
-
-    /**
-     * Get the amount of caught exceptions
-     *
-     * @return integer
-     */
-    public static function count()
-    {
-        return \count(static::$exceptions);
-    }
-
-    /**
-     * Get the array of caught exceptions
-     *
-     * @return array
-     */
-    public static function all()
-    {
-        return static::$exceptions;
+        $this->exceptions[] = $exception;
     }
 
 }

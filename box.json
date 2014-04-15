@@ -1,0 +1,18 @@
+{
+    "main": "bin/brick",
+    "output": "brick.phar",
+    "files": [
+        "LICENSE"
+    ],
+    "finder": [
+        {
+            "name": "*.php",
+            "in": "src"
+        },
+        {
+            "name": "*.php",
+            "in": "vendor"
+        }
+    ],
+    "stub": true
+}

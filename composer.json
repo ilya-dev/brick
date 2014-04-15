@@ -23,5 +23,8 @@
     },
     "autoload-dev": {
         "classmap": ["testing/"]
-    }
+    },
+    "bin": [
+        "bin/brick"
+    ]
 }

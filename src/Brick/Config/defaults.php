@@ -6,6 +6,4 @@ return [
 
     'strategy' => 'Brick\Strategies\DefaultStrategy',
 
-    'logger'   => 'Brick\Loggers\FileLogger',
-
 ];

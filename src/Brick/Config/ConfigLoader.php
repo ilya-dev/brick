@@ -44,9 +44,9 @@ class ConfigLoader {
         $raw     = $this->loadRaw();
         $default = $this->file->requireFile(__DIR__.'/defaults.php');
 
-        $custom  = $raw ? json_decode($raw, true) : [];
+        $custom  = $raw ? \json_decode($raw, true) : [];
 
-        return array_merge($default, $custom);
+        return \array_merge($default, $custom);
     }
 
 }

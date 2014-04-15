@@ -1,6 +1,6 @@
 <?php namespace Brick;
 
-final class Brick {
+class Brick {
 
     /**
      * Brick configuration
@@ -12,7 +12,7 @@ final class Brick {
     /**
      * Bridge to Symfony's OutputInterface implementation
      *
-     * @var Closure
+     * @var \Closure
      */
     protected $report;
 
@@ -24,11 +24,29 @@ final class Brick {
     protected $class;
 
     /**
+     * Exceptions instance
+     *
+     * @var \Brick\Exceptions
+     */
+    protected $exceptions;
+
+    /**
+     * The constructor
+     *
+     * @param  \Brick\Exceptions|null $exceptions
+     * @return void
+     */
+    public function __construct(Exceptions $exceptions = null)
+    {
+        $this->exceptions = $exceptions ?: new Exceptions;
+    }
+
+    /**
      * Run Brick
      *
-     * @param  string  $class
-     * @param  array   $config
-     * @param  Closure $report
+     * @param  string   $class
+     * @param  array    $config
+     * @param  \Closure $report
      * @return void
      */
     public function run($class, array $config, \Closure $report)
@@ -37,15 +55,22 @@ final class Brick {
         $this->report = $report;
 
         // so you can write My/Class instead of "My\Class"
-        $this->class  = str_replace('/', '\\', $class);
-
-        $this->writeHead();
+        $this->setClass($class);
 
         $this->registerHandlers();
-
+        $this->start();
         $this->doRun();
+    }
 
-        $this->finish();
+    /**
+     * Set the class name
+     *
+     * @param  string $class
+     * @return void
+     */
+    protected function setClass($class)
+    {
+        $this->class = str_replace('/', '\\', $class);
     }
 
     /**
@@ -57,28 +82,76 @@ final class Brick {
     {
         $instance = Creator::create($this->class);
         $strategy = Creator::create($this->config['strategy']);
-        $logger   = Creator::create($this->config['logger']);
+        $indexes  = \range(1, $this->config['attempts']);
 
-        foreach (range(1, $this->config['attempts']) as $iteration)
+        foreach ($indexes as $index)
         {
-            $decision = $strategy->decide($instance);
+            $action = $strategy->decide($instance);
 
-            if (is_null($decision)) continue;
+            if (is_null($action))
+            {
+                continue;
+            }
 
-            $this->report("<info>#{$iteration}:</info> $decision");
+            $this->reportAction($action, $index);
 
-            // print the result
-            // if it failed with an exception, stop execution and tell
-            // what actually happened
-            // don't forget about logging!
+            $this->exceptions->remember();
+
+            $result = $this->takeAction($instance, $action);
+
+            if ($this->exceptions->wereAdded())
+            {
+                return $this->reportBroken();
+            }
+            else
+            {
+                $this->reportResult($result);
+            }
         }
+    }
+
+    /**
+     * Report an action
+     *
+     * @param  \Brick\Action  $action
+     * @param  integer        $index
+     * @return void
+     */
+    protected function reportAction(Action $action, $index)
+    {
+        $this->report("<info>#{$index}:</info> $action");
+    }
+
+    /**
+     * Report a result
+     *
+     * @param  mixed $result
+     * @return void
+     */
+    protected function reportResult($result)
+    {
+        $result = Exporter::export($result);
+
+        $this->report("<comment># => {$result}</comment>");
+    }
+
+    /**
+     * Report broken code
+     *
+     * @return void
+     */
+    protected function reportBroken()
+    {
+        $this->report("<error>It looks like your code's just got broken!</error>");
+
+        $this->report("<error>".$this->exceptions->getLastMessage()."</error>");
     }
 
     /**
      * Invoke a method with given set of arguments
      *
-     * @param  mixed        $instance
-     * @param  Brick\Action $action
+     * @param  mixed         $instance
+     * @param  \Brick\Action $action
      * @return mixed
      */
     protected function takeAction($instance, Action $action)
@@ -92,7 +165,7 @@ final class Brick {
 
         catch(\Exception $exception)
         {
-            Exceptions::add($exception);
+            $this->exceptions->add($exception);
         }
     }
 
@@ -107,21 +180,6 @@ final class Brick {
         {
             throw new \RuntimeException($message, $severity);
         });
-
-        \set_exception_handler(function(\Exception $exception)
-        {
-            Exceptions::add($exception);
-        });
-    }
-
-    /**
-     * Finish execution
-     *
-     * @return void
-     */
-    protected function finish()
-    {
-        $this->report("<info>Done</info>");
     }
 
     /**
@@ -129,21 +187,15 @@ final class Brick {
      *
      * @return void
      */
-    protected function writeHead()
+    protected function start()
     {
-        $this->report(
-            "<info>Attempting to break <comment>{$this->class}</comment> class</info>"
-        );
+        $class = $this->class;
 
-        $strategy = "<comment>{$this->config['strategy']}</comment>";
-        $attempts = "<comment>{$this->config['attempts']}</comment>";
-        $logger   = "<comment>{$this->config['logger']}</comment>";
+        list($strategy, $attempts) = [$this->config['strategy'], $this->config['attempts']];
 
-        $this->report(
-            "<info>Running {$strategy} strategy {$attempts} times</info>"
-        );
-
-        $this->report("<info>Logging using {$logger} logger</info>");
+        $this->report("<info>Attempting to break <comment>{$class}</comment> class</info>");
+        $this->report("<info>Running <comment>{$strategy}</comment> strategy <comment>{$attempts}</comment> times</info>");
+        $this->report(\str_repeat('-', 40));
     }
 
     /**
