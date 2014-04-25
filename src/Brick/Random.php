@@ -3,7 +3,7 @@
 class Random {
 
     /**
-     * Call a method with random arguments
+     * Call a method with random arguments list.
      *
      * @return array
      */
@@ -27,7 +27,7 @@ class Random {
     }
 
     /**
-     * Create an instance of existing class or build an implementation
+     * Create an instance of an existing class or build an implementation.
      *
      * @return mixed
      */
@@ -53,7 +53,7 @@ class Random {
     }
 
     /**
-     * Get random value
+     * Get a random value.
      *
      * @return mixed
      */
@@ -71,7 +71,7 @@ class Random {
     }
 
     /**
-     * Get null
+     * Get null.
      *
      * @return null
      */
@@ -81,7 +81,7 @@ class Random {
     }
 
     /**
-     * Get an empty closure
+     * Get an empty closure.
      *
      * @return \Closure
      */
@@ -91,7 +91,7 @@ class Random {
     }
 
     /**
-     * Get a random boolean
+     * Get a random boolean.
      *
      * @return boolean
      */
@@ -101,7 +101,7 @@ class Random {
     }
 
     /**
-     * Get a random integer
+     * Get a random integer.
      *
      * @return integer
      */
@@ -111,7 +111,7 @@ class Random {
     }
 
     /**
-     * Get a new instance of stdClass
+     * Get a new instance of \stdClass.
      *
      * @return \stdClass
      */
@@ -121,7 +121,7 @@ class Random {
     }
 
     /**
-     * Get a random float
+     * Get a random float.
      *
      * @return float
      */
@@ -131,7 +131,7 @@ class Random {
     }
 
     /**
-     * Get a random string
+     * Get a random string.
      *
      * @return string
      */
@@ -141,7 +141,7 @@ class Random {
     }
 
     /**
-     * Get a random array
+     * Get a random array.
      *
      * @return array
      */

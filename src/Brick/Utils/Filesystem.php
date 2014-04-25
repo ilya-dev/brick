@@ -3,22 +3,25 @@
 class Filesystem {
 
     /**
-     * Read a file
+     * Read a file.
      *
-     * @param  string $file
+     * @param string $file
      * @return mixed
      */
     public function read($file)
     {
-        if ( ! is_readable($file)) return null;
+        if ( ! \is_readable($file))
+        {
+            return null;
+        }
 
-        return file_get_contents($file);
+        return \file_get_contents($file);
     }
 
     /**
-     * Require a .php file
+     * Require a PHP file.
      *
-     * @param  string $file
+     * @param string $file
      * @return mixed
      */
     public function requireFile($file)
@@ -27,15 +30,15 @@ class Filesystem {
     }
 
     /**
-     * Append to a file
+     * Append to a file.
      *
-     * @param  string  $file
-     * @param  mixed   $content
+     * @param string $file
+     * @param mixed $content
      * @return integer
      */
     public function append($file, $content)
     {
-        return file_put_contents($file, $content, FILE_APPEND);
+        return \file_put_contents($file, $content, FILE_APPEND);
     }
 
 }

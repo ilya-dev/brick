@@ -3,38 +3,38 @@
 class Brick {
 
     /**
-     * Brick configuration
+     * The configuration.
      *
      * @var array
      */
     protected $config;
 
     /**
-     * Bridge to Symfony's OutputInterface implementation
+     * The bridge to OutputInterface.
      *
      * @var \Closure
      */
     protected $report;
 
     /**
-     * Class we attempt to break
+     * The class that we attempt to break.
      *
      * @var string
      */
     protected $class;
 
     /**
-     * Exceptions instance
+     * The Exceptions instance.
      *
-     * @var \Brick\Exceptions
+     * @var Exceptions
      */
     protected $exceptions;
 
     /**
-     * The constructor
+     * The constructor.
      *
-     * @param  \Brick\Exceptions|null $exceptions
-     * @return void
+     * @param Exceptions|null $exceptions
+     * @return Brick
      */
     public function __construct(Exceptions $exceptions = null)
     {
@@ -42,11 +42,11 @@ class Brick {
     }
 
     /**
-     * Run Brick
+     * Run Brick.
      *
-     * @param  string   $class
-     * @param  array    $config
-     * @param  \Closure $report
+     * @param string $class
+     * @param array $config
+     * @param \Closure $report
      * @return void
      */
     public function run($class, array $config, \Closure $report)
@@ -54,7 +54,6 @@ class Brick {
         $this->config = $config;
         $this->report = $report;
 
-        // so you can write My/Class instead of "My\Class"
         $this->setClass($class);
 
         $this->registerHandlers();
@@ -63,14 +62,14 @@ class Brick {
     }
 
     /**
-     * Set the class name
+     * Set the class name.
      *
-     * @param  string $class
+     * @param string $class
      * @return void
      */
     protected function setClass($class)
     {
-        $this->class = str_replace('/', '\\', $class);
+        $this->class = \str_replace('/', '\\', $class);
     }
 
     /**
@@ -88,7 +87,7 @@ class Brick {
         {
             $action = $strategy->decide($instance);
 
-            if (is_null($action))
+            if (\is_null($action))
             {
                 continue;
             }
@@ -111,10 +110,10 @@ class Brick {
     }
 
     /**
-     * Report an action
+     * Report an action.
      *
-     * @param  \Brick\Action  $action
-     * @param  integer        $index
+     * @param Action $action
+     * @param integer $index
      * @return void
      */
     protected function reportAction(Action $action, $index)
@@ -123,9 +122,9 @@ class Brick {
     }
 
     /**
-     * Report a result
+     * Report the result.
      *
-     * @param  mixed $result
+     * @param mixed $result
      * @return void
      */
     protected function reportResult($result)
@@ -136,7 +135,7 @@ class Brick {
     }
 
     /**
-     * Report broken code
+     * Report a broken code.
      *
      * @return void
      */
@@ -148,10 +147,10 @@ class Brick {
     }
 
     /**
-     * Invoke a method with given set of arguments
+     * Invoke a method with the given set of arguments.
      *
-     * @param  mixed         $instance
-     * @param  \Brick\Action $action
+     * @param mixed $instance
+     * @param Action $action
      * @return mixed
      */
     protected function takeAction($instance, Action $action)
@@ -170,7 +169,7 @@ class Brick {
     }
 
     /**
-     * Register custom exception and error handlers
+     * Register the custom error handler.
      *
      * @return void
      */
@@ -183,7 +182,7 @@ class Brick {
     }
 
     /**
-     * Write header information
+     * Write the header information.
      *
      * @return void
      */
@@ -199,9 +198,9 @@ class Brick {
     }
 
     /**
-     * Report
+     * Report a message.
      *
-     * @param  string $message
+     * @param string $message
      * @return void
      */
     protected function report($message)

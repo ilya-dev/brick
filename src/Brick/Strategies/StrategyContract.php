@@ -3,10 +3,10 @@
 interface StrategyContract {
 
     /**
-     * Make a decision
+     * Take action.
      *
-     * @param  mixed $object
-     * @return Brick\Action|null
+     * @param mixed $object
+     * @return \Brick\Action|null
      */
     public function decide($object);
 

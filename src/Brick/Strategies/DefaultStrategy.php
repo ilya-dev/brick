@@ -13,7 +13,7 @@ class DefaultStrategy extends Strategy {
     }
 
     /**
-     * Pick a random strategy
+     * Pick a random strategy.
      *
      * @return string
      */

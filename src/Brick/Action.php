@@ -3,25 +3,25 @@
 class Action {
 
     /**
-     * Method called
+     * The method called.
      *
      * @var string
      */
     protected $method;
 
     /**
-     * Arguments passed
+     * The arguments passed.
      *
      * @var array
      */
     protected $arguments = [];
 
     /**
-     * The constructor
+     * The constructor.
      *
-     * @param  string $method
-     * @param  array  $arguments
-     * @return void
+     * @param string $method
+     * @param array $arguments
+     * @return Action
      */
     public function __construct($method, array $arguments)
     {
@@ -30,7 +30,7 @@ class Action {
     }
 
     /**
-     * Get the method name
+     * Get the method name.
      *
      * @return string
      */
@@ -40,7 +40,7 @@ class Action {
     }
 
     /**
-     * Get the array of arguments
+     * Get the arguments.
      *
      * @return array
      */
@@ -50,7 +50,7 @@ class Action {
     }
 
     /**
-     * PHP magic method
+     * Convert the object to a string.
      *
      * @return string
      */
@@ -62,7 +62,7 @@ class Action {
     }
 
     /**
-     * Represent each argument as a string
+     * Represent each argument in string format.
      *
      * @return array
      */
@@ -72,7 +72,7 @@ class Action {
 
         foreach ($this->arguments as $argument)
         {
-            if (is_object($argument))
+            if (\is_object($argument))
             {
                 $arguments[] = 'new \\'.get_class($argument);
             }

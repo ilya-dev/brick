@@ -3,9 +3,9 @@
 class Exporter {
 
     /**
-     * Better var_export
+     * The improved version of \var_export function.
      *
-     * @param  mixed  $thing
+     * @param mixed $thing
      * @return string
      */
     public static function export($thing)
@@ -24,9 +24,9 @@ class Exporter {
     }
 
     /**
-     * Export an object
+     * Export an object.
      *
-     * @param  mixed  $object
+     * @param mixed $object
      * @return string
      */
     protected static function exportObject($object)
@@ -35,9 +35,9 @@ class Exporter {
     }
 
     /**
-     * Export an array
+     * Export an array.
      *
-     * @param  array  $array
+     * @param array $array
      * @return string
      */
     protected static function exportArray(array $array)

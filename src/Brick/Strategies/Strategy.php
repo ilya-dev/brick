@@ -8,15 +8,15 @@ abstract class Strategy implements StrategyContract {
     abstract public function decide($object);
 
     /**
-     * Call a strategy
+     * Run a strategy.
      *
-     * @param  string $strategy
-     * @param  mixed  $object
-     * @return Brick\Action
+     * @param string $strategy
+     * @param mixed $object
+     * @return \Brick\Action
      */
     protected function call($strategy, $object)
     {
-        $strategy = sprintf('Brick\Strategies\%sStrategy', ucfirst($strategy));
+        $strategy = \sprintf('Brick\Strategies\%sStrategy', \ucfirst($strategy));
 
         return (new $strategy)->decide($object);
     }

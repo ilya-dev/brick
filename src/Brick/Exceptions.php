@@ -3,21 +3,21 @@
 class Exceptions {
 
     /**
-     * Array of caught exceptions
+     * The caught exceptions.
      *
      * @var array
      */
     protected $exceptions = [];
 
     /**
-     * Last remembered state
+     * The last "remembered" state.
      *
      * @var integer
      */
     protected $remembered = 0;
 
     /**
-     * Get a message string from the latest caught exception
+     * Retrieve the message string out of the latest caught exception.
      *
      * @return string
      */
@@ -31,7 +31,7 @@ class Exceptions {
     }
 
     /**
-     * "Remember" current state
+     * "Remember" the current state.
      *
      * @return void
      */
@@ -41,7 +41,7 @@ class Exceptions {
     }
 
     /**
-     * Whether the current state has changed since the last time it was "remembered"
+     * Whether the current state has changed since the last time it was "remembered".
      *
      * @return boolean
      */
@@ -51,9 +51,9 @@ class Exceptions {
     }
 
     /**
-     * Add an exception
+     * Add an exception.
      *
-     * @param  Exception $exception
+     * @param \Exception $exception
      * @return void
      */
     public function add(\Exception $exception)

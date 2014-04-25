@@ -5,17 +5,17 @@ use Brick\Utils\Filesystem as File;
 class ConfigLoader {
 
     /**
-     * Filesystem instance
+     * The Filesystem instance.
      *
-     * @var Brick\Utils\Filesystem
+     * @var \Brick\Utils\Filesystem
      */
     protected $file;
 
     /**
-     * The constructor
+     * The constructor.
      *
-     * @param  Brick\Utils\Filesystem|null $file
-     * @return void
+     * @param Brick\Utils\Filesystem|null $file
+     * @return ConfigLoader
      */
     public function __construct(File $file = null)
     {
@@ -23,9 +23,9 @@ class ConfigLoader {
     }
 
     /**
-     * Load the raw configuration file
+     * Load a raw configuration file.
      *
-     * @return null|string
+     * @return mixed
      */
     public function loadRaw()
     {
@@ -35,16 +35,17 @@ class ConfigLoader {
     }
 
     /**
-     * Load the configuration file
+     * Load a configuration file.
      *
      * @return array
      */
     public function load()
     {
-        $raw     = $this->loadRaw();
+        $raw = $this->loadRaw();
+
         $default = $this->file->requireFile(__DIR__.'/defaults.php');
 
-        $custom  = $raw ? \json_decode($raw, true) : [];
+        $custom = $raw ? \json_decode($raw, true) : [];
 
         return \array_merge($default, $custom);
     }
