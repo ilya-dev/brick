@@ -1,13 +1,15 @@
 #!/usr/bin/env php
 <?php
 
-define('BRICK_ROOT_DIR', __DIR__);
+error_reporting(-1);
 
-define('BRICK_VERSION', '0.1.0');
+date_default_timezone_set('UTC');
+
+define('BRICK_ROOT_DIR', __DIR__);
 
 require __DIR__.'/../vendor/autoload.php';
 
-$brick = new Symfony\Component\Console\Application('Brick', BRICK_VERSION); 
+$brick = new Symfony\Component\Console\Application('Brick', '0.1.0'); 
 
 $brick->add(new Brick\Commands\BreakCommand);
 
